@@ -16,7 +16,8 @@ var users = require('./routes/users');
 
 
 var app = express();
-app.set('port',3043);
+app.set('hostName',process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");
+app.set('port',process.env.OPENSHIFT_NODEJS_PORT || 8080);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(logger('dev'));
@@ -54,7 +55,7 @@ if (app.get('env') === 'development') {
 
 
 
-http.createServer(app).listen(app.get('port'),function(){
+app.listen(app.get('port'),app.get('hostName'),function(){
 	console.log("We have started our server on port "+app.get('port'));
 	});
 
